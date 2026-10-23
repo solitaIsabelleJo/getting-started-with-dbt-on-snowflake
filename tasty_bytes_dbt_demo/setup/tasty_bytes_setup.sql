@@ -77,7 +77,7 @@ ALTER SCHEMA tasty_bytes_dbt_db.prod SET METRIC_LEVEL = 'ALL';
 -- Alternatively, your admin can set up one OAuth2 integration for the team instead of managing personal access tokens.
 -- See: https://docs.snowflake.com/en/user-guide/ui-snowsight/workspaces-git
 -- =============================================================================
-
+/*
 USE tasty_bytes_dbt_db.integrations;
 CREATE OR REPLACE SECRET tasty_bytes_dbt_db.integrations.tb_dbt_git_secret
   TYPE = password
@@ -94,7 +94,7 @@ CREATE OR REPLACE API INTEGRATION tb_dbt_git_api_integration
   -- Comment out the following line if your forked repository is public
   ALLOWED_AUTHENTICATION_SECRETS = (tasty_bytes_dbt_db.integrations.tb_dbt_git_secret)
   ENABLED = TRUE;
-
+*/
 -- =============================================================================
 -- STEP 5: (Optional) Create a network rule and external access integration
 -- If you plan to run 'dbt deps' in a workspace, dbt will need to access remote
@@ -128,6 +128,12 @@ CREATE OR REPLACE API INTEGRATION tb_dbt_git_api_integration
 -- =============================================================================
 
 -- File format and external stage
+
+--grant all privileges on schema tasty_bytes_dbt_db.public to role accountadmin;
+--grant all privileges on database tasty_bytes_dbt_db to role accountadmin;
+--CREATE SCHEMA IF NOT EXISTS tasty_bytes_dbt_db.raw;
+--grant all privileges on schema tasty_bytes_dbt_db.raw to role accountadmin;
+--grant all privileges on schema tasty_bytes_dbt_db.integrations to role accountadmin;
 
 CREATE OR REPLACE FILE FORMAT tasty_bytes_dbt_db.public.csv_ff 
 type = 'csv';
